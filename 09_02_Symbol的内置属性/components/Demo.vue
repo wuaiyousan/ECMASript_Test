@@ -22,16 +22,16 @@
   // console.log(arr1.concat(arr2));
 
   // 对象的 Symbol.split 属性，指向一个方法，当该对象被 String.prototype.split 方法调用时，会返回该方法的返回值。
-  // let str1 = 'x_h_y'
+  let str1 = 'x_h_y'
 
-  // class Sp{
-  //   [Symbol.split](param){  
-  //     //console.log('xhy003',param.split('_'));
-  //     return param.split('_');
-  //   }
-  // }
+  class Sp{
+    [Symbol.split](param){  
+      //console.log('xhy003',param.split('_'));
+      return param.split('_');
+    }
+  }
 
-  // console.log(str1.split(new Sp())); 
+  console.log(str1.split(new Sp())); 
 </script>
 
 <style>
