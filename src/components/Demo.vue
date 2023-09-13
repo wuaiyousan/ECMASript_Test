@@ -9,6 +9,7 @@
       console.log(param,'我被用于类型监测了');
     }
   }
+  // 2222
   let o = {}
 
   // console.log(o instanceof Person);
