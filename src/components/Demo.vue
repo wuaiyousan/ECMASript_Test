@@ -1,64 +1,155 @@
 <template>
-  <h3>生成器</h3>
+  <h3>生成器函数实例_2</h3>
 </template>
 
 <script setup>
-  // 生成器其实就是一个特殊的函数
-  // 生成器 generator 的初体验
-  //#region 
-/*   function * gen(a,b,c){
-    // yield 可视为函数代码的分隔符
-    // console.log('xhy001',a,b,c);
-    yield {value:'第一部分代码结束',done: false}
+// var myIterable = {};
+// myIterable[Symbol.iterator] = function* () {
+//   yield 1;
+//   yield 2;
+//   yield 3;
+// };
 
-    // console.log('xhy002',a,b,c);
-    yield {value:'第二部分代码结束',done: true}
+// [...myIterable] // [1, 2, 3]
+// console.log([...myIterable]);
 
-    // console.log('xhy003');
-    yield {value:'第三部分代码结束',done: false}
+/***********************************************************/
+// function* add(){
+//   yield 1;
+//   yield 2;
+//   yield 3;
+// }
 
-    // console.log('xhy004');
+// let o = add()
+// console.log([...o]);
+
+/***********************************************************/
+// function* f() {
+//   for(var i = 0; true; i++) {
+//     var reset = yield i;
+//     console.log(reset, i ,);
+//     if(reset) { 
+//       console.log('xhy001', i);
+//       i = -1; 
+//     }
+//   }
+// }
+
+// let gen = f()
+// console.log(gen.next()); 
+// console.log(gen.next(0)); 
+// console.log(gen.next()); 
+// console.log(gen.next()); 
+// console.log(gen.next()); 
+
+/***********************************************************/
+// function* foo(x) {
+//   var y = 2 * (yield (x + 1));
+//   var z = yield (y / 3);
+//   return (x + y + z);
+// }
+
+// let o = foo(5)
+
+// // o.next()  // {value: 6, done: false }
+// // o.next()  // {value: NAN, done: false}
+// // o.next()  // {value: NAN, done: true}
+
+// // console.log(o.next());
+// // console.log(o.next());
+// // console.log(o.next());
+
+// // o.next()  // {value: 6, done: false }
+// // o.next(12)  // {value: 8, done: false}
+// // o.next(13)  // {value: 42, done: true} 5+24+13
+
+// console.log(o.next());
+// console.log(o.next(12));
+// console.log(o.next(13));
+
+/***********************************************************/
+// function* dataConsumer() {
+//   console.log('Started');
+//   console.log(`1. ${yield}`);
+//   console.log(`2. ${yield}`);
+//   return 'result';
+// }
+// let genObj = dataConsumer();
+
+// // genObj.next() // {value: underfined, done: false }
+// // genObj.next('a') // {value: underfined, done: false }
+// // genObj.next('b') // {value: result, done: true }
+
+// console.log(genObj.next());
+// console.log(genObj.next('a'));
+// console.log(genObj.next('b'));
+
+/***********************************************************/
+// function* foo(){
+//   yield 1;
+//   yield 2;
+//   yield 3;
+//   yield 4;
+//   yield 5;
+//   return 6
+// }
+
+// for(let o of foo()){
+//   console.log(o);
+// }
+
+/***********************************************************/
+// let person = {name: 'xhy', age: 18}
+// // 使用for...of循环遍历对象的第一种方法
+// // function* objectEntries(obj){
+// //   let objKeys = Reflect.ownKeys(obj)
+
+// //   for(let o of objKeys){
+// //     yield [o, obj[o]]
+// //   }
+// // }
+
+// // for(let [key, value] of objectEntries(person)){
+// //   console.log(key,value);
+// // }
+
+// // 使用for...of循环遍历对象的第二种方法
+// function* objectEntries(){
+//   let objKeys = Reflect.ownKeys(this)
+//   for(let o of objKeys){
+//     yield [o,this[o]]
+//   }
+// }
+// person[Symbol.iterator] = objectEntries
+// for(let [key, value] of person){
+//   console.log(key,value);
+// }
+
+/***********************************************************/
+let g = function* () {
+  try {
+    yield 'xhy';
+  }catch(e) {
+    console.log('内部捕捉', e);
   }
 
-  let iterator = gen(1,2,3)
-  // console.log(iterator);
-
-  // 执行 generator
-  console.log(iterator.next()); 
-  console.log(iterator.next()); 
-  console.log(iterator.next()); 
-  console.log(iterator.next()); 
-
-  // for...of 遍历
-  // for(let i of iterator){
-  //   if(i.done){
-  //     console.log('遍历的回调',i);
-  //   }
-  // } */
-  //#endregion
-
-  // 生成器的参数传递
-  function * gen(arg){
-    console.log('arg', arg);
-    let one = yield [111,arg]
-
-    console.log('one', one);
-    let two = yield [222, one, arg]
-
-    console.log('two', two);
-    let three = yield [333,two]
-    
-    console.log('three', three)
+  try {
+    yield 'xhy2';
+  }catch(e) {
+    console.log('内部捕捉', e);
   }
+}
+let i = g();
+//i.next()
+console.log('第一次next',i.next());
 
-  let iterator = gen('AAA')
-  // 第一次的next() 不需要传递参数，第一部分可以使用生成器本身接收的参数
-  console.log('这是第一段代码段的返回结果:',iterator.next())
-  // 本次通过next() 传递参数，将作为上一次yield语句的返回结果，然后可以被本次代码块使用 
-  console.log('这是第二段代码段的返回结果:',iterator.next('BBB'))
+// i.throw('a')
+// i.throw('b')
 
-  console.log('这是第三段代码段的返回结果:',iterator.next('CCC'))
-  console.log('这是第四段代码段的返回结果:',iterator.next('DDD'))
+console.log(i.throw('a'));
+console.log(i.throw('b'));
+
+
 
 </script>
 
